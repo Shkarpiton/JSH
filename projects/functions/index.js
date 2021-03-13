@@ -61,8 +61,16 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 13
  */
 function returnCounter(number) {
-
+  return function fn() {
+		return number++;
+	}
 }
+  var f = returnCounter(10)
+  console.log(f());
+  console.log(f());
+  console.log(f());
+
+
 
 /*
  Задание 5 *:
@@ -90,7 +98,14 @@ function returnArgumentsArray() {}
 
    console.log(newSum()) выведет 6
  */
-function bindFunction(fn, ...args) {}
+function bindFunction(fn, ...args) {
+  const six = fn + args;
+  return six;
+}
+const six = sum(2, 4);
+
+console.log(six);
+
 
 export {
   returnFirstArgument,
