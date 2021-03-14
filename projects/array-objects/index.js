@@ -68,8 +68,7 @@ function upperProps(obj) {
       pr.push(name.toUpperCase());
     }
   
-    return pr
-    ;
+    return pr;
   }
 
 
