@@ -8,7 +8,17 @@
  Пример:
    delayPromise(3) // вернет promise, который будет разрешен через 3 секунды
  */
-function delayPromise(seconds) {}
+function delayPromise(seconds) {
+  return new Promise((resolve) =>{
+    setTimeout(() => {
+        resolve();
+        console.log('resol');
+    }, seconds);
+});
+
+}
+
+delay(3000);
 
 /*
  Задание 2:
