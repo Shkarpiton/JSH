@@ -14,11 +14,11 @@ function delayPromise(seconds) {
         resolve();
         console.log('resol');
     }, seconds);
-});
+}, 3000);
 
 }
 
-delay(3000);
+
 
 /*
  Задание 2:
@@ -33,6 +33,10 @@ delay(3000);
  Пример:
    loadAndSortTowns().then(towns => console.log(towns)) // должна вывести в консоль отсортированный массив городов
  */
-function loadAndSortTowns() {}
+function loadAndSortTowns() {
+  return fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
+    .then((res) => res.json())
+    .then((towns) => towns.sort((d, f) => d.name.localeCompare(f.name)));
+}
 
 export { delayPromise, loadAndSortTowns };
