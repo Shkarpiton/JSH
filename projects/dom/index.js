@@ -12,7 +12,7 @@
  */
 function createDivWithText(text) {
   const element = document.createElement('div');
-  element.textContent = 'text'
+  element.textContent = text
   return element
 }
 
@@ -49,7 +49,7 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
-  var hr = where.wer;
+  var hr = where;
     var ar = [];
     for (var i = 0; i < hr.length ; i++) {
         if (hr[i].nextElementSibling.nodeName === 'P') {
