@@ -60,16 +60,11 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter(number) {
-  return function fn() {
-		return number++;
-	}
+function returnCounter(number = 0) {
+  return () => ++number
+	
 }
-  var f = returnCounter(10)
-  console.log(f());
-  console.log(f());
-  console.log(f());
-
+  
 
 
 /*
