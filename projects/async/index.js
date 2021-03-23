@@ -67,8 +67,46 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
-retryButton.addEventListener('click', () => {});
+let tows = [];
 
-filterInput.addEventListener('input', function () {});
+retryButton.addEventListener('click', () => {
+  tryToLoad();
+});
 
+filterInput.addEventListener('input', function () {
+  updateFilter(this.value);
+});
+
+loadingFailedBlock.classList.add('hidden');
+filterBlock.classList.add('hidden');
+
+async function tryToLoad() {
+  try {
+    tows = await loadTowns();
+    loadingBlock.classList.add('hidden');
+    loadingFailedBlock.classList.add('hidden');
+    filterBlock.classList.remove('hidden');
+  } catch (e) {
+    loadingBlock.classList.add('hidden');
+    loadingFailedBlock.classList.remove('hidden');
+  }
+}
+
+function updateFilter(filterValue) {
+  filterResult.innerHTML = '';
+
+  const far = document.createDocumentFragment();
+
+  for (const tow of tows) {
+    if (filterValue && isMatching(tow.name, filterValue)) {
+      const towDiv = document.createElement('div');
+      towDiv.textContent = tow.name;
+      far.append(towDiv);
+    }
+  }
+
+  filterResult.append(far);
+}
+
+tryToLoad();
 export { loadTowns, isMatching };
