@@ -2,31 +2,6 @@ ymaps.ready(init);
 var myMap;
 var myCordinats =[]
 
-var placemarks = [
-    {
-        latitude: coords[0].toPrecision(6),
-        longitude: coords[1].toPrecision(6),
-        hintContent: '<h3 class="map__hint">Отзыв:</div>',
-        balloonContent: [
-            '<div class="review-list"></div>',
-            '<div class="form" data-role="review-form">',
-            '<h3>Отзыв:</h3>',
-            '<div class="field">',
-            '<input data-role="review-name" type="text" placeholder="Укажите ваше имя">',
-            '</div>',
-            '<div class="field">',
-            '<input data-role="review-name" type="text" placeholder="Укажите место">',
-            '</div>',
-            '<div class="field">',
-            '<textarea data-role="review-name" type="text" placeholder="Оставьте отзыв" rows="5"></textarea>',
-            '</div>',
-
-            '<button data-role="review-add">Добавить</button>',
-            '<span class="form-error"></span>'
-        ]
-    },
-    
-],
     geoObjects= [];
 
 function init() {
