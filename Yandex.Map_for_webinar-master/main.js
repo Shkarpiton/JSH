@@ -61,6 +61,7 @@ function init() {
         else {
             function getCordinats(){
                 var coords = e.get('coords');
+                return coords;
                 [
                     {coodinate:4325, name:'author name', review:'text review'},
                     {coodinate:789, name:'author name 2', review:'text review 2'},
@@ -70,7 +71,7 @@ function init() {
             return coords
         };
         console.log(getCordinats())
-
+        myMap.balloon.close();
             /*var inp = document.getElementById("inp");
             var btn = document.querySelector(".btn");
             var arr = [];
@@ -83,7 +84,6 @@ function init() {
               })*/
 
 
-            myMap.balloon.close();
         
         function getCordinats(){
             var coords = e.get('coords');
