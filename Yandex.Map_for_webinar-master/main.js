@@ -1,6 +1,7 @@
 ymaps.ready(init);
 var myMap;
 var myCordinats =[]
+var placemarks = []
 
     geoObjects= [];
 
