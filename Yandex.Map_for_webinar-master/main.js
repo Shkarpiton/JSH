@@ -43,7 +43,6 @@ function init() {
             myMap.balloon.open(coords, {
                 contentHeader:'',
                 contentBody:[
-                '<div class=coment> </div>'+
                 '<div class="form" data-role="review-form">'+
                 '<h3>Отзыв:</h3>'+
                 '<div  id="inp">'+
@@ -88,38 +87,34 @@ function init() {
         clusterBalloonContentLayout: 'cluster#balloonCarousel',
         clusterBalloonPanelMaxMapArea: 0,
         clusterBalloonPagerSize: 5,
-
+        
     });
-    
-
-    getPointOptions = function () {
-        return {
-            preset: 'islands#blueIcon'
-        };
-    };
-    
-    var geoObjects= [];
-
-    for(var i = 0, len = placemarks.length; i < len; i++) {
-        geoObjects[i] = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang], getPointOptions(),{
+    var test = [];
+    for(var i = 0; i < placemarks.length; i++) {
+        let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
             balloonContentBody: getContentBody(i),
-        });
-        placemarks.push(geoObjects);
+        }); 
+        test.push(placemark);
+        
     }
+    clusterer.add(test);
+    myMap.geoObjects.add(clusterer);
+
     var placemarkBodies;
     function getContentBody (num) {
-        if (!placemarkBodies) {
-            placemarkBodies.push({  
-                name: name.value,
-                place: place.value,
-                reviews: reviews.value,
-                });
-                localStorage.setItem('data',JSON.stringify(placemarks));
+        if (!placemarkBodies) {[
+            placemarkBodies= placemarks,
+        ];
+            localStorage.setItem('data',JSON.stringify(placemarks));  
         }
+        return '<br>'+placemarkBodies[num % placemarkBodies.length];
         }
-        return '<br>' + placemarkBodies[num % placemarkBodies.length];
-    }
+        clusterer.balloon.open(clusterer.getClusters()[0]);
+}
+
+    
+    
+    
 
    
-    clusterer.add(geoObjects);
-    myMap.geoObjects.add(clusterer);
+    
