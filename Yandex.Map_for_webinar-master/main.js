@@ -73,13 +73,7 @@ function init() {
         myMap.balloon.open(coords)
         
     })
-    var placemarkBodies;
-    function getContentBody (num) {
-        if (!placemarkBodies) {
-            placemarkBodies =placemarks;
-        }
-        
-    }
+
     console.log(placemarkBodies)
     myMap.events.add('click', function (e) {
         if (!myMap.balloon.isOpen()) {
