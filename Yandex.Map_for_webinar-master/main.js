@@ -1,88 +1,136 @@
-ymaps.ready(init);
+
 var myMap;
-var myCordinats =[]
-var placemarks = []
 
-    geoObjects= [];
+/*var placemarks = [];*/
+var placemarks = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [];
+var coords = [];
 
+
+
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains("btn") ) {
+        console.log(coords);
+        var name = document.querySelector(
+            '.ima'
+        );
+        var place = document.querySelector(
+            '.mets'
+        );
+        var reviews = document.querySelector(
+            '.revs'
+        );
+        console.log(placemarks)
+        placemarks.push({
+            lat: coords[0],
+            lang: coords[1],
+            name: name.value,
+            place: place.value,
+            reviews: reviews.value,
+            });
+            localStorage.setItem('data',JSON.stringify(placemarks));
+            
+    }
+  });
+  console.log(placemarks);
+ymaps.ready(init);
 function init() {
     var myMap = new ymaps.Map('map', {
         center: [55.75554290, 37.62483958],
         zoom: 12,
     });
+    var test= [];
+    var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+        '<div class=ballon_body>{{ properties.balloonContentBody|raw }}</div>' 
+    );
+      var clusterer = new ymaps.Clusterer({
+        preset: 'islands#invertedBlueClusterIcons',
+        gridSize: 80,
+        clusterDisableClickZoom: true,
+        groupByCoordinates: false,
+        clusterBalloonItemContentLayout: customItemContentLayout,
+        clusterDisableClickZoom: true,
+        clusterHideIconOnBalloonOpen: false,
+        geoObjectHideIconOnBalloonOpen: false,
+        clusterDisableClickZoom: true,
+        clusterOpenBalloonOnClick: true,
+        clusterBalloonContentLayout: 'cluster#balloonCarousel',
+        clusterBalloonPanelMaxMapArea: 0,
+        clusterBalloonPagerSize: 5,
+    });
+    
+
+    for(var i = 0;  i < placemarks.length; i++) {
+        let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
+            balloonContentBody: getContentBody(i),
+        });
+        test.push(placemark);
+        clusterer.add(test);
+    myMap.geoObjects.add(clusterer)
+
+    }
+        myMap.geoObjects.events.add('click',function(e){
+        coords = e.get('coords')
+        myMap.balloon.open(coords)
+        
+    })
+    var placemarkBodies;
+    function getContentBody (num) {
+        if (!placemarkBodies) {
+            placemarkBodies =placemarks;
+        }
+        
+    }
+    console.log(placemarkBodies)
     myMap.events.add('click', function (e) {
         if (!myMap.balloon.isOpen()) {
-            var coords = e.get('coords');
+             coords = e.get('coords');
             myMap.balloon.open(coords, {
                 contentHeader:'',
                 contentBody:[
                 '<div class=coment> </div>'+
-                '<div class="review-list"></div>'+
                 '<div class="form" data-role="review-form">'+
                 '<h3>Отзыв:</h3>'+
-                '<div class="field" id="inp">'+
-                '<input data-role="review-name" type="text" placeholder="Укажите ваше имя">'+
+                '<div  id="inp">'+
+                '<input class="ima" data-role="review-name" type="text" placeholder="Укажите ваше имя">'+
                 '</div>'+
-                '<div class="field" id="inp">'+
-                '<input data-role="review-name" type="text" placeholder="Укажите место">'+
+                '<div  id="inp">'+
+                '<input class="mets" data-role="review-name" type="text" placeholder="Укажите место">'+
                 '</div>'+
-                '<div class="field" id="inp">'+
-                '<textarea data-role="review-name" type="text" placeholder="Оставьте отзыв" rows="5"></textarea>'+
+                '<div  id="inp">'+
+                '<textarea class="revs" data-role="review-name" type="text" placeholder="Оставьте отзыв" rows="5"></textarea>'+
                 '</div>'+
-
                 '<button class="btn" data-role="review-add">Добавить</button>'+
                 '<span class="form-error"></span>'] 
             });
         }
         else {
-            function getCordinats(){
-                var coords = e.get('coords');
-                return coords;
-                [
-                    {coodinate:4325, name:'author name', review:'text review'},
-                    {coodinate:789, name:'author name 2', review:'text review 2'},
-                    {coodinate:789, name:'author name 3', review:'text review 3'},
-                   ]
-            }
-            return coords
-        };
-        console.log(getCordinats())
-        myMap.balloon.close();
-            /*var inp = document.getElementById("inp");
-            var btn = document.querySelector(".btn");
-            var arr = [];
-
-            btn.addEventListener('click', function() {
-                var valInp = inp.value;
-                arr.push(valInp);
-                console.log(arr);
-                inp.value = "";
-              })*/
-
-
         
-        function getCordinats(){
-            var coords = e.get('coords');
-            [
-                {coodinate:4325, name:'author name', review:'text review'},
-                {coodinate:789, name:'author name 2', review:'text review 2'},
-                {coodinate:789, name:'author name 3', review:'text review 3'},
-               ]
-        }
+        };
+
+        myMap.balloon.close();
+ 
     });
-    for (var i = 0; i < placemarks.length; i++) {
-            geoObjects[i] = new ymaps.Placemark([placemarks[i].latitude, placemarks[i].longitude],
-            {
-                hintContent: placemarks[i].hintContent,
-                balloonContent: placemarks[i].balloonContent.join('')
-            });
-            
+   
+
+    
+    
+
+   
+    
+    
+
+    var placemarkBodies;
+    function getContentBody (num) {
+        if (!placemarkBodies) {
+            placemarkBodies= placemarks;
+                localStorage.getItem('data',JSON.stringify(placemarks));
+        }
+        return '<br>'+placemarkBodies[num % placemarkBodies.length];
+        }
+        
+    
     }
 
-    var clusterer = new ymaps.Clusterer({
-        
-    });
+    
+    
 
-    map.geoObjects.add(clusterer);
-    clusterer.add(geoObjects);
-}
