@@ -73,8 +73,7 @@ function init() {
         myMap.balloon.open(coords)
         
     })
-
-    console.log(placemarkBodies)
+    
     myMap.events.add('click', function (e) {
         if (!myMap.balloon.isOpen()) {
              coords = e.get('coords');
@@ -96,34 +95,29 @@ function init() {
                 '<button class="btn" data-role="review-add">Добавить</button>'+
                 '<span class="form-error"></span>'] 
             });
-        }
-        else {
-        
-        };
-
-        myMap.balloon.close();
- 
-    });
+        }});
    
-
-    
-    
-
-   
-    
-    
-
-    var placemarkBodies;
-    function getContentBody (num) {
-        if (!placemarkBodies) {
-            placemarkBodies= placemarks;
-                localStorage.getItem('data',JSON.stringify(placemarks));
-        }
-        return '<br>'+placemarkBodies[num % placemarkBodies.length];
-        }
+    function getContentBody(num) {
         
-    
+        return [
+            '<br>' +
+            `<h3>Имя</h3>` +
+            `${placemarks[num].name}` +
+            '<h3>Место</h3>' +
+            `${placemarks[num].place}` +
+            '<h3>Отзыв</h3>' +
+            `${placemarks[num].reviews}`
+        ];
+        
     }
+    
+
+   
+    
+    
+
+   
+}
 
     
     
