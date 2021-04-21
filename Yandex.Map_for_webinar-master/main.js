@@ -11,7 +11,6 @@ var test= [];
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains("btn") ) {
         
-        console.log(coords);
         var name = document.querySelector(
             '.ima'
         );
@@ -32,18 +31,16 @@ document.addEventListener('click', function (e) {
             localStorage.setItem('data',JSON.stringify(placemarks));
             myMap.balloon.close();
             
+            test= [];
             for(var i = 0;  i < placemarks.length; i++) {
                 let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
                     balloonContentBody: getContentBody(i),
                 });
-                
                 test.push(placemark);
+                }
+                clusterer.removeAll()
                 clusterer.add(test);
-            myMap.geoObjects.add(clusterer)
-        
-            }
-
-            
+                myMap.geoObjects.add(clusterer)
     }
   });
 
