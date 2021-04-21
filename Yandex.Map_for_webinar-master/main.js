@@ -9,6 +9,7 @@ var coords = [];
 
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains("btn") ) {
+        location = location
         console.log(coords);
         var name = document.querySelector(
             '.ima'
@@ -28,7 +29,7 @@ document.addEventListener('click', function (e) {
             reviews: reviews.value,
             });
             localStorage.setItem('data',JSON.stringify(placemarks));
-            
+        
     }
   });
   console.log(placemarks);
@@ -55,8 +56,11 @@ function init() {
         clusterOpenBalloonOnClick: true,
         clusterBalloonContentLayout: 'cluster#balloonCarousel',
         clusterBalloonPanelMaxMapArea: 0,
+        clusterBalloonContentLayoutWidth: 300,
+        clusterBalloonContentLayoutHeight: 300,
         clusterBalloonPagerSize: 5,
     });
+    
     
 
     for(var i = 0;  i < placemarks.length; i++) {
@@ -101,22 +105,31 @@ function init() {
         
         return [
             '<br>' +
-            `<h3>Имя</h3>` +
+            `<h3>Имя:</h3>` +
             `${placemarks[num].name}` +
-            '<h3>Место</h3>' +
+            '<h3>Место:</h3>' +
             `${placemarks[num].place}` +
-            '<h3>Отзыв</h3>' +
-            `${placemarks[num].reviews}`
-        ];
+            '<h3>Отзыв:</h3>' +
+            `${placemarks[num].reviews}`+
+            '<div class=coment> </div>'+
+                '<div class="form" data-role="review-form">'+
+                '<h3>Отзыв:</h3>'+
+                '<div  id="inp">'+
+                '<input class="ima" data-role="review-name" type="text" placeholder="Укажите ваше имя">'+
+                '</div>'+
+                '<div  id="inp">'+
+                '<input class="mets" data-role="review-name" type="text" placeholder="Укажите место">'+
+                '</div>'+
+                '<div  id="inp">'+
+                '<textarea class="revs" data-role="review-name" type="text" placeholder="Оставьте отзыв" rows="5"></textarea>'+
+                '</div>'+
+                '<button class="btn" data-role="review-add">Добавить</button>'+
+                '<span class="form-error"></span>'
+        ]
         
     }
-    
+    myMap.balloon.close();
 
-   
-    
-    
-
-   
 }
 
     
