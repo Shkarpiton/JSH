@@ -1,15 +1,16 @@
-
+ymaps.ready(init);
+function init() {
 var myMap;
 
 /*var placemarks = [];*/
 var placemarks = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [];
 var coords = [];
-
+var test= [];
 
 
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains("btn") ) {
-        location = location
+        
         console.log(coords);
         var name = document.querySelector(
             '.ima'
@@ -29,17 +30,31 @@ document.addEventListener('click', function (e) {
             reviews: reviews.value,
             });
             localStorage.setItem('data',JSON.stringify(placemarks));
+            myMap.balloon.close();
+            
+            for(var i = 0;  i < placemarks.length; i++) {
+                let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
+                    
+                });
+                
+                test.push(placemark);
+                clusterer.add(test);
+            myMap.geoObjects.add(clusterer)
         
+            }
+
+            
     }
   });
+
+  
   console.log(placemarks);
-ymaps.ready(init);
-function init() {
+
     var myMap = new ymaps.Map('map', {
         center: [55.75554290, 37.62483958],
         zoom: 12,
     });
-    var test= [];
+    
     var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
         '<div class=ballon_body>{{ properties.balloonContentBody|raw }}</div>' 
     );
@@ -61,22 +76,22 @@ function init() {
         clusterBalloonPagerSize: 5,
     });
     
-    
-
     for(var i = 0;  i < placemarks.length; i++) {
         let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
             balloonContentBody: getContentBody(i),
         });
+        
         test.push(placemark);
         clusterer.add(test);
     myMap.geoObjects.add(clusterer)
 
     }
-        myMap.geoObjects.events.add('click',function(e){
+    myMap.geoObjects.events.add('click',function(e){
         coords = e.get('coords')
         myMap.balloon.open(coords)
         
     })
+    
     
     myMap.events.add('click', function (e) {
         if (!myMap.balloon.isOpen()) {
