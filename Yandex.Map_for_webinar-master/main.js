@@ -34,7 +34,7 @@ document.addEventListener('click', function (e) {
             
             for(var i = 0;  i < placemarks.length; i++) {
                 let placemark = new ymaps.Placemark([placemarks[i].lat, placemarks[i].lang],{
-                    
+                    balloonContentBody: getContentBody(i),
                 });
                 
                 test.push(placemark);
